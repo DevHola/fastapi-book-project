@@ -40,12 +40,15 @@ jobs:
 
       - name: Deploy to Azure 
         run: |
-          ssh azureuser@20.121.64.202 << 'EOF'
+          ssh -o StrictHostKeyChecking=no azureuser@20.121.64.202 << 'EOF'
             cd /fastapi-book-project
             git pull origin main
             source venv/bin/activate
             pip install --upgrade --no-cache-dir -r requirements.txt
+            sudo systemctl restart fastapi-app
             sudo systemctl restart nginx
-            uvicorn main:app --host 0.0.0.0 --port 8000
           EOF
+      - name: Health Check
+        run: |
+          curl -f http://20.121.64.202:8000/ || exit 1
   
