@@ -64,7 +64,7 @@ jobs:
       - name: Health Check
         run: |
           for i in {1..5}; do
-            curl -f http://20.121.64.202:8000/ && exit 0 || sleep 5
+            curl -f http://20.121.64.202:8000/docs && exit 0 || sleep 5
           done
           echo "Health check failed!"
           exit 1
